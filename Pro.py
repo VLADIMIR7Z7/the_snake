@@ -43,7 +43,8 @@ class Apple(GameObject):
 
     def draw(self, surface):
         """Отрисовывает яблоко на игровом поле."""
-        pygame.draw.rect(surface, self.body_color, (self.position[0], self.position[1], CELL_SIZE, CELL_SIZE))
+        pygame.draw.rect(surface, self.body_color, 
+                         (self.position[0], self.position[1], CELL_SIZE, CELL_SIZE))
 
 
 class Snake(GameObject):
@@ -68,7 +69,8 @@ class Snake(GameObject):
             self.direction = self.next_direction
             self.next_direction = None
 
-        new_head = (self.positions[0][0] + self.direction[0], self.positions[0][1] + self.direction[1])
+        new_head = (self.positions[0][0] + self.direction[0], 
+                    self.positions[0][1] + self.direction[1])
 
         # Обработка границ
         new_head = (new_head[0] % SCREEN_WIDTH, new_head[1] % SCREEN_HEIGHT)
@@ -88,10 +90,13 @@ class Snake(GameObject):
         """Отрисовывает змейку на игровом поле."""
         for i, pos in enumerate(self.positions):
             if i == 0:  # Голова змейки
-                pygame.draw.rect(surface, self.head_color, (pos[0], pos[1], CELL_SIZE, CELL_SIZE))
+                pygame.draw.rect(surface, self.head_color, 
+                                 (pos[0], pos[1], CELL_SIZE, CELL_SIZE))
             else:  # Остальные сегменты змейки
-                pygame.draw.rect(surface, self.body_color, (pos[0], pos[1], CELL_SIZE, CELL_SIZE))
-                pygame.draw.rect(surface, DARK_GREEN, (pos[0], pos[1], CELL_SIZE, CELL_SIZE), 1)
+                pygame.draw.rect(surface, self.body_color, 
+                                 (pos[0], pos[1], CELL_SIZE, CELL_SIZE))
+                pygame.draw.rect(surface, DARK_GREEN, 
+                                 (pos[0], pos[1], CELL_SIZE, CELL_SIZE), 1)
 
     def get_head_position(self):
         """Возвращает позицию головы змейки."""
@@ -114,7 +119,7 @@ def handle_keys(snake):
             if event.key == pygame.K_UP:
                 snake.update_direction((0, -CELL_SIZE))
             elif event.key == pygame.K_DOWN:
-                snake.update_direction(( 0, CELL_SIZE))
+                snake.update_direction((0, CELL_SIZE))
             elif event.key == pygame.K_LEFT:
                 snake.update_direction((-CELL_SIZE, 0))
             elif event.key == pygame.K_RIGHT:
