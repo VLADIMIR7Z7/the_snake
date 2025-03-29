@@ -31,7 +31,7 @@ clock = pygame.time.Clock()
 class GameObject:
     """Базовый класс для всех игровых объектов."""
 
-    def __init__(self, position):
+    def __init__(self, position=(0, 0)):  # установили значение по умолчанию для позиции
         self.position = position
 
     def draw(self, surface):
@@ -82,7 +82,7 @@ class Snake(GameObject):
             self.next_direction = None
 
         new_head = (self.positions[0][0] + self.direction[0] * GRID_SIZE,
-                    self.positions[0][1] + self.direction[1] * GRID_SIZE)
+                    self .positions[0][1] + self.direction[1] * GRID_SIZE)
 
         # Обработка границ (появление с противоположной стороны)
         new_head = (new_head[0] % SCREEN_WIDTH, new_head[1] % SCREEN_HEIGHT)
@@ -113,7 +113,7 @@ class Snake(GameObject):
 
 
 def handle_keys(snake):
-    """Обрабатывает нажатия клав иш для управления змейкой."""
+    """Обрабатывает нажатия клавиш для управления змейкой."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
