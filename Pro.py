@@ -15,9 +15,10 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)  # Цвет головы змейки
 WHITE = (255, 255, 255)  # Цвет текста
 
+
 class GameObject:
     """Базовый класс для всех игровых объектов."""
-    
+
     def __init__(self, position):
         self.position = position
 
@@ -25,25 +26,29 @@ class GameObject:
         """Метод для отрисовки объекта на экране."""
         pass
 
+
 class Apple(GameObject):
     """Класс, представляющий яблоко."""
-    
+
     def __init__(self):
         self.body_color = RED
         self.randomize_position()
 
     def randomize_position(self):
         """Устанавливает случайное положение яблока на игровом поле."""
-        self.position = (random.randint(0, (SCREEN_WIDTH // CELL_SIZE) - 1) * CELL_SIZE,
-                         random.randint(0, (SCREEN_HEIGHT // CELL_SIZE) - 1) * CELL_SIZE)
+        self.position = (
+            random.randint(0, (SCREEN_WIDTH // CELL_SIZE) - 1) * CELL_SIZE,
+            random.randint(0, (SCREEN_HEIGHT // CELL_SIZE) - 1) * CELL_SIZE
+        )
 
     def draw(self, surface):
         """Отрисовывает яблоко на игровом поле."""
         pygame.draw.rect(surface, self.body_color, (self.position[0], self.position[1], CELL_SIZE, CELL_SIZE))
 
+
 class Snake(GameObject):
     """Класс, представляющий змейку."""
-    
+
     def __init__(self):
         self.body_color = GREEN
         self.head_color = BLUE  # Цвет головы змейки
@@ -64,10 +69,10 @@ class Snake(GameObject):
             self.next_direction = None
 
         new_head = (self.positions[0][0] + self.direction[0], self.positions[0][1] + self.direction[1])
-        
+
         # Обработка границ
         new_head = (new_head[0] % SCREEN_WIDTH, new_head[1] % SCREEN_HEIGHT)
-        
+
         if new_head in self.positions[1:]:
             self.reset()
             return False  # Возвращаем False, если произошла столкновение
@@ -98,9 +103,10 @@ class Snake(GameObject):
         self.positions = [(CELL_SIZE * i, CELL_SIZE) for i in range(self.length)]
         self.direction = (CELL_SIZE, 0)
 
+
 def handle_keys(snake):
     """Обрабатывает нажатия клавиш для управления змейкой."""
-    for event in pygame.event.get ():
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
@@ -108,7 +114,7 @@ def handle_keys(snake):
             if event.key == pygame.K_UP:
                 snake.update_direction((0, -CELL_SIZE))
             elif event.key == pygame.K_DOWN:
-                snake.update_direction((0, CELL_SIZE))
+                snake.update_direction(( 0, CELL_SIZE))
             elif event.key == pygame.K_LEFT:
                 snake.update_direction((-CELL_SIZE, 0))
             elif event.key == pygame.K_RIGHT:
@@ -117,13 +123,14 @@ def handle_keys(snake):
                 pygame.quit()
                 exit()
 
+
 def main():
     """Основной игровой цикл."""
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Изгиб Питона")
     clock = pygame.time.Clock()
-    
+
     # Инициализация шрифта
     font = pygame.font.Font(None, 36)
     score = 0  # Переменная для хранения счета
@@ -152,6 +159,7 @@ def main():
 
         pygame.display.update()
         clock.tick(FPS)
+
 
 if __name__ == "__main__":
     main()
