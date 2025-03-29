@@ -30,8 +30,7 @@ clock = pygame.time.Clock()
 
 class GameObject:
     """Базовый класс для всех игровых объектов."""
-
-    def __init__(self, position=(0, 0)):  # установили значение по умолчанию для позиции
+    def __init__(self, position=(0, 0)):
         self.position = position
 
     def draw(self, surface):
@@ -41,7 +40,6 @@ class GameObject:
 
 class Apple(GameObject):
     """Класс, представляющий яблоко."""
-
     def __init__(self):
         super().__init__(self.randomize_position())
 
@@ -62,13 +60,16 @@ class Apple(GameObject):
 
 class Snake(GameObject):
     """Класс, представляющий змейку."""
-
     def __init__(self):
         self.body_color = SNAKE_COLOR
         self.length = 1
         self.positions = [(GRID_SIZE * 5, GRID_SIZE * 5)]  # Начальная позиция
         self.direction = RIGHT
         self.next_direction = None
+
+    def get_head_position(self):
+        """Возвращает позицию головы змейки."""
+        return self.positions[0]
 
     def update_direction(self, new_direction):
         """Обновляет направление движения змейки."""
@@ -82,14 +83,14 @@ class Snake(GameObject):
             self.next_direction = None
 
         new_head = (self.positions[0][0] + self.direction[0] * GRID_SIZE,
-                    self .positions[0][1] + self.direction[1] * GRID_SIZE)
+                    self.positions[0][1] + self.direction[1] * GRID_SIZE)
 
         # Обработка границ (появление с противоположной стороны)
         new_head = (new_head[0] % SCREEN_WIDTH, new_head[1] % SCREEN_HEIGHT)
 
         if new_head in self.positions:
             self.reset()
-            return False  # Возвращаем False, если произошла столкновение
+            return False  # Возвращаем False, если произошло столкновение
 
         self.positions.insert(0, new_head)
 
@@ -145,7 +146,7 @@ def main():
         if not snake.move():  # Проверяем, произошло ли столкновение
             apple.randomize_position()  # Перемещаем яблоко
 
-        if snake.positions[0] == apple.position:
+        if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position()  # Перемещаем яблоко при поедании
 
