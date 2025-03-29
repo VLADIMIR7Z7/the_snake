@@ -27,7 +27,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
-
 class GameObject:
     """Базовый класс для всех игровых объектов."""
 
@@ -37,7 +36,6 @@ class GameObject:
     def draw(self, surface):
         """Метод для отрисовки объекта на экране."""
         pass
-
 
 class Apple(GameObject):
     """Класс, представляющий яблоко."""
@@ -58,7 +56,6 @@ class Apple(GameObject):
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(surface, APPLE_COLOR, rect)
         pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
-
 
 class Snake(GameObject):
     """Класс, представляющий змейку."""
@@ -84,14 +81,14 @@ class Snake(GameObject):
         new_head = (self.positions[0][0] + self.direction[0] * GRID_SIZE,
                     self.positions[0][1] + self.direction[1] * GRID_SIZE)
 
-        # Обработка границ (появление с противоположной стороны)
-        new_head = (new_head[0] % SCREEN_WIDTH, new_head[1] % SCREEN_HEIGHT)
-
-        if new_head in self.positions:
+        # Проверка на столкновение с границами
+        if (new_head[0] < 0 or new_head[0] >= SCREEN_WIDTH or
+                new_head[1] < 0 or new_head[1] >= SCREEN_HEIGHT or
+                new_head in self.positions):
             self.reset()
             return False  # Возвращаем False, если произошла столкновение
 
-        self.positions.insert(0, new_head)
+        self .positions.insert(0, new_head)
 
         if len(self.positions) > self.length:
             self.positions.pop()
@@ -111,7 +108,6 @@ class Snake(GameObject):
         self.positions = [(GRID_SIZE * 5, GRID_SIZE * 5)]
         self.direction = RIGHT
 
-
 def handle_keys(snake):
     """Обрабатывает нажатия клавиш для управления змейкой."""
     for event in pygame.event.get():
@@ -127,10 +123,6 @@ def handle_keys(snake):
                 snake.update_direction(LEFT)
             elif event.key == pygame.K_RIGHT:
                 snake.update_direction(RIGHT)
-            elif event.key == pygame.K_ESCAPE:  # Выход из игры по ESC
-                pygame.quit()
-                exit()
-
 
 def main():
     """Основной игровой цикл."""
@@ -155,8 +147,6 @@ def main():
 
         pygame.display.update()
 
-
 if __name__ == '__main__':
     main()
 
-    #Пустая строка
